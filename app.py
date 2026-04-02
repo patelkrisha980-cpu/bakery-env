@@ -27,3 +27,11 @@ def step(item: str, quantity: int):
 @app.get("/state")
 def state():
     return env.state()
+
+import uvicorn
+
+def main():
+    uvicorn.run(app, host="0.0.0.0", port=7860)
+
+if __name__ == "__main__":
+    main()
