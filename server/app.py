@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from environment import BakeryEnv
+import uvicorn
 
 app = FastAPI()
 env = BakeryEnv()
@@ -22,3 +23,9 @@ def step(item: str, quantity: int):
 @app.get("/state")
 def state():
     return env.state()
+
+def main():
+    uvicorn.run(app, host="0.0.0.0", port=7860)
+
+if __name__ == "__main__":
+    main()
