@@ -1,0 +1,41 @@
+name: BakeryInventoryEnv
+version: "1.0"
+description: "A real-world bakery inventory management environment for AI agents"
+
+tasks:
+  - id: easy
+    name: "Stock Check"
+    description: "Check if an item is available in stock"
+    difficulty: easy
+
+  - id: medium
+    name: "Smart Reorder"
+    description: "Reorder items based on demand vs stock"
+    difficulty: medium
+
+  - id: hard
+    name: "Budget Optimizer"
+    description: "Manage orders within a fixed budget"
+    difficulty: hard
+
+observation_space:
+  type: dict
+  fields:
+    - name: stock
+      type: dict
+    - name: demand
+      type: dict
+    - name: budget
+      type: float
+    - name: task
+      type: string
+
+action_space:
+  type: dict
+  fields:
+    - name: item
+      type: string
+    - name: quantity
+      type: integer
+
+reward_range: [0.0, 1.0]
