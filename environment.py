@@ -1,4 +1,21 @@
 import random
+from pydantic import BaseModel
+from typing import Dict, Optional
+
+class BakeryAction(BaseModel):
+    item: str
+    quantity: int
+
+class BakeryObservation(BaseModel):
+    stock: Dict[str, int]
+    demand: Dict[str, int]
+    budget: float
+    task: str
+
+class BakeryReward(BaseModel):
+    reward: float
+    done: bool
+    info: Dict
 
 class BakeryEnv:
     def __init__(self):
