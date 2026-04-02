@@ -9,5 +9,9 @@ description = "Bakery inventory management environment for AI agents"
 requires-python = ">=3.10"
 dependencies = [
     "fastapi",
-    "uvicorn"
+    "uvicorn",
+    "openenv-core>=0.2.0"
 ]
+
+[project.scripts]
+server = "server.app:app"
