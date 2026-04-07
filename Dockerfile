@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN pip install fastapi uvicorn pydantic openenv-core
+RUN pip install fastapi uvicorn pydantic openenv-core openai
 
 EXPOSE 7860
 
