@@ -3,22 +3,21 @@ import json
 from openai import OpenAI
 from environment import BakeryEnv
 
-API_KEY = os.environ["API_KEY"]
-API_BASE_URL = os.environ["API_BASE_URL"]
-MODEL_NAME = os.environ.get("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
+API_KEY = os.getenv("HF_TOKEN") or os.getenv("API_KEY")
+API_BASE_URL = os.getenv("API_BASE_URL") or "https://router.huggingface.co/v1"
+MODEL_NAME = os.getenv("MODEL_NAME") or "Qwen/Qwen2.5-72B-Instruct"
 
 def get_action(client, task, state):
-    response = client.chat.completions.create(
-        model=MODEL_NAME,
-        messages=[
-            {"role": "system", "content": "You are a bakery inventory manager."},
-            {"role": "user", "content": f"Task: {task}, State: {json.dumps(state)}. Reply with only JSON: {{\"item\": \"bread\", \"quantity\": 1}}"}
-        ],
-        max_tokens=50
-    )
-    text = response.choices[0].message.content.strip()
     try:
-        return json.loads(text)
+        response = client.chat.completions.create(
+            model=MODEL_NAME,
+            messages=[
+                {"role": "system", "content": "You are a bakery inventory manager. Reply only with JSON."},
+                {"role": "user", "content": f"Task: {task}, State: {json.dumps(state)}. Reply with only JSON: {{\"item\": \"bread\", \"quantity\": 1}}"}
+            ],
+            max_tokens=50
+        )
+        return json.loads(response.choices[0].message.content.strip())
     except:
         if task == "easy":
             return {"item": "bread", "quantity": 1}
@@ -42,7 +41,7 @@ def main():
         error_val = error if error else "null"
 
         print(f"[STEP] step=1 action={json.dumps(action)} reward={reward:.2f} done={str(done).lower()} error={error_val}", flush=True)
-        print(f"[END] success={str(reward > 0).lower()} steps=1 rewards={reward:.2f}", flush=True)
+        print(f"[END] success={str(reward > 0).lower()} steps=1 score={reward:.2f} rewards={reward:.2f}", flush=True)
 
 if __name__ == "__main__":
     main()
