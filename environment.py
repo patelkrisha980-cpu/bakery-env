@@ -52,16 +52,16 @@ class BakeryEnv:
 
     if self.current_task == "easy":
         if self.stock.get(item, 0) > 0:
-            reward = 0.9  # 1.0 nahi!
+            reward = 0.9  
         else:
-            reward = 0.1  # 0.0 nahi!
+            reward = 0.1  
         done = True
 
     elif self.current_task == "medium":
         if self.demand[item] > self.stock[item]:
             self.stock[item] += quantity
             reward = min(0.9, quantity / self.demand[item])
-            reward = max(0.1, reward)  # 0.0 nahi!
+            reward = max(0.1, reward)  
         else:
             reward = 0.2
         done = True
@@ -73,9 +73,9 @@ class BakeryEnv:
             fulfillment = min(self.stock[item] / self.demand[item], 0.9)
             budget_efficiency = self.budget / 100
             reward = round((fulfillment + budget_efficiency) / 2, 2)
-            reward = max(0.1, min(0.9, reward))  # strictly between 0 and 1!
+            reward = max(0.1, min(0.9, reward)) 
         else:
-            reward = 0.1  # 0.0 nahi!
+            reward = 0.1  
             info["error"] = "Budget exceeded!"
         done = True
 
